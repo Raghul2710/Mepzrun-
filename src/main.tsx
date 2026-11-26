@@ -2,6 +2,7 @@ import { StrictMode, Suspense, lazy } from 'react'
 import { createRoot } from 'react-dom/client'
 import { MotionConfig } from 'motion/react'
 import './index.css'
+import { Preloader } from '@/components/Preloader'
 
 const root = document.getElementById('root')!
 // Each HTML entry (/, /home2/, /terms-conditions/) only downloads the code for its own page.
@@ -17,9 +18,11 @@ createRoot(root).render(
   <StrictMode>
     {/* Honour the OS "reduce motion" setting for every Motion-driven component. */}
     <MotionConfig reducedMotion="user">
-      <Suspense fallback={<div className="min-h-[100svh] bg-navy-950" />}>
+      <Suspense fallback={<div className="min-h-[100svh] bg-forest-950" />}>
         <Page />
       </Suspense>
+      {/* Logo loading animation on the home pages (/ and /home2/). */}
+      {root.dataset.page !== 'terms' && <Preloader />}
     </MotionConfig>
   </StrictMode>,
 )

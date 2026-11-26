@@ -382,7 +382,7 @@ export function Hero() {
       </motion.div>
 
       {/* Slogan band */}
-      <div aria-hidden className="relative z-20 order-5 -rotate-1 border-y-2 border-[#03100a] bg-leaf py-3 text-[#03100a] lg:mt-0">
+      <div aria-hidden className="relative z-20 order-5 -mx-[3vw] mb-6 w-[106vw] -rotate-1 border-y-2 border-[#03100a] bg-leaf py-3 text-[#03100a] lg:mt-0">
         <ScrollVelocity
           texts={[
             <span className="inline-flex items-center gap-8">

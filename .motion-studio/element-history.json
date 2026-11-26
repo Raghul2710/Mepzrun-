@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "usedRecipeIds": [
+    "reactbits-text-animations-gradient-text",
+    "magicui-docs-components-sparkles-text",
+    "aceternity-components-timeline",
+    "motion-examples-react-scroll-horizontal",
+    "animate-ui-tilt",
+    "motion-primitives-infinite-slider",
+    "reactbits-components-gooey-nav",
+    "magicui-r-animated-beam-multiple-inputs-json"
+  ],
+  "usedFamilies": [
+    "gradient-text",
+    "sparkles-text",
+    "timeline",
+    "scroll-horizontal-gallery",
+    "tilt",
+    "infinite-slider",
+    "gooey-nav",
+    "animated-beam"
+  ],
+  "usedSectionSignatures": [
+    "opening|full-bleed-caption|gradient-text",
+    "story|open-letter|sparkles-text",
+    "evidence|quote-margin|timeline",
+    "showcase|project-index|scroll-horizontal-gallery",
+    "showcase|alternating-casework|tilt",
+    "evidence|comparison-ledger|infinite-slider",
+    "process|chapter-rail|gooey-nav",
+    "conversion|decision-path|animated-beam"
+  ],
+  "planCount": 1
+}

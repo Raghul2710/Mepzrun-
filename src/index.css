@@ -1,0 +1,120 @@
+@import "tailwindcss";
+@import "@fontsource-variable/archivo/wdth.css";
+@import "@fontsource-variable/inter";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ---------- MEPZ Run design tokens (brand colours sampled from the MEPZ Run 2027 logo & campaign banners) ---------- */
+@theme {
+  --font-display: "Archivo Variable", "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --color-navy-950: #050f22;
+  --color-navy-900: #08193a;
+  --color-navy-800: #0c2552;
+  --color-navy-700: #123a7a;
+  --color-brand: #1d4e9e;        /* logo blue */
+  --color-brand-300: #8fb0e6;
+  --color-leaf: #5db82e;         /* logo / campaign green */
+  --color-leaf-300: #a6e07c;
+  --color-leaf-400: #7ed348;
+  --color-leaf-600: #3f951b;
+  --color-leaf-800: #1f5212;
+  --color-amber: #f5a524;        /* sun / CTA orange */
+  --color-amber-300: #ffd27a;
+  --color-teal: #0e4f5c;         /* campaign button teal */
+  --color-forest-950: #03100a;   /* cinematic base (hero/film) */
+  --color-forest-900: #061a10;
+  --color-forest-850: #0a2316;
+  --color-forest-800: #0f2e1c;
+  --color-paper: #f5f7f1;
+  --color-mist: #e8eee4;
+  --color-ink: #0b1b33;
+  --color-silver: #c9d2dc;
+  --color-bronze: #cd8a4e;
+
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+  --radius-card: 1.75rem;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; scroll-padding-top: 5.5rem; -webkit-text-size-adjust: 100%; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+  ::selection { background: var(--color-leaf-400); color: var(--color-navy-950); }
+  :focus-visible { outline: 3px solid var(--color-amber); outline-offset: 3px; border-radius: 6px; }
+  img { max-width: 100%; }
+}
+
+@utility headline { font-family: var(--font-display); font-stretch: 112%; font-weight: 700; letter-spacing: -0.02em; line-height: 0.88; text-transform: uppercase; }
+@utility headline-cond { font-family: var(--font-display); font-stretch: 75%; font-weight: 700; letter-spacing: 0; word-spacing: 0.12em; line-height: 0.9; text-transform: uppercase; }
+@utility eyebrow { @apply inline-flex items-center gap-2 text-[0.78rem] font-semibold tracking-[0.22em] uppercase; }
+@utility container-x { @apply mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-12; }
+@utility section-y { @apply py-20 sm:py-24 lg:py-32; }
+
+@layer components {
+  .grain::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .07; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .track-lines { background-image: repeating-linear-gradient(90deg, rgb(255 255 255 / .05) 0 1px, transparent 1px 120px); }
+  .prose-terms h3 { @apply headline-cond mt-14 mb-5 text-3xl text-navy-900 first:mt-0 sm:text-4xl; scroll-margin-top: 7rem; }
+  .prose-terms p { @apply my-4 text-[1.02rem] leading-relaxed text-ink/80; }
+  .prose-terms ul { @apply my-4 space-y-2.5 pl-5; list-style: none; }
+  .prose-terms li { @apply relative leading-relaxed text-ink/80; }
+  .prose-terms ul > li::before { content: ""; @apply absolute top-[0.62em] -left-5 h-1.5 w-1.5 rounded-full bg-leaf; }
+  .prose-terms strong, .prose-terms b { @apply font-semibold text-navy-900; }
+  .prose-terms a { @apply font-medium text-brand underline decoration-leaf decoration-2 underline-offset-4 transition-colors hover:text-leaf-600; }
+}
+
+/* Reduced motion: pause decorative loops from registry components (marquee, shimmer, border beam) */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee, .animate-marquee-vertical, .animate-shimmer-slide, .animate-spin-around { animation-play-state: paused !important; }
+}
+
+/* ---------- Registry-provided animation tokens (Magic UI shimmer-button & marquee) ---------- */
+@theme inline {
+    --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite alternate;
+    --animate-spin-around: spin-around calc(var(--speed) * 2) infinite linear;
+    --animate-marquee: marquee var(--duration) infinite linear;
+    --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+  @keyframes shimmer-slide {
+  to {
+    transform: translate(calc(100cqw - 100%), 0);
+        }
+    }
+  @keyframes spin-around {
+  0% {
+    transform: translateZ(0) rotate(0);
+        }
+  15%, 35% {
+    transform: translateZ(0) rotate(90deg);
+        }
+  65%, 85% {
+    transform: translateZ(0) rotate(270deg);
+        }
+  100% {
+    transform: translateZ(0) rotate(360deg);
+        }
+    }
+  @keyframes marquee {
+  from {
+    transform: translateX(0);
+        }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+        }
+    }
+  @keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+        }
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+        }
+    }
+}

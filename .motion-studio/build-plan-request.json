@@ -1,0 +1,666 @@
+{
+ "motionLevel": 3,
+ "libraryOnly": true,
+ "sourceMode": "mixed",
+ "sources": [
+  "reactbits",
+  "magicui",
+  "aceternity",
+  "motion",
+  "animate-ui",
+  "motion-primitives"
+ ],
+ "brief": "MEPZ Run 2027 (11th edition) eco running event redesign; content preserved verbatim from mepzrun.in; navy #1D4E9E / leaf green #5DB82E / amber #F5A524 brand; premium, purposeful motion with reduced-motion fallbacks. Iteration 2: cinematic green hero (oversized bleeding MEPZ RUN type, AI-generated runner cut-out with blurred motion trail and controlled RGB glitch, green gradient light) followed by a scroll-scrubbed 15s running film that expands to full bleed, a scroll-velocity slogan band and a scroll word-reveal statement. All copy reused verbatim from existing content.",
+ "project": {
+  "framework": "react",
+  "language": "typescript",
+  "styling": "tailwind",
+  "newProject": false,
+  "evidence": "Existing Vite 8 + React 19.3 + TS + Tailwind 4 site in this repo; ScrollExpand-TS-TW, ScrollVelocity-TS-TW and magicui text-reveal installed via npx shadcn add from official registries."
+ },
+ "sections": [
+  {
+   "name": "Hero title",
+   "purpose": "Kinetic oversized MEPZ RUN 2027 headline",
+   "file": "src/components/sections/Hero.tsx",
+   "recipeId": "reactbits-text-animations-split-text",
+   "variant": "SplitText-TS-TW",
+   "animation": {
+    "trigger": "load",
+    "properties": [
+     "opacity",
+     "y"
+    ],
+    "from": "chars masked below baseline, opacity 0",
+    "to": "settled, opacity 1",
+    "timing": "duration 0.9s, 35ms char stagger, power3.out, starts 200ms after first paint",
+    "transitionToNext": "hero content fades/lifts with scroll progress via motion useScroll",
+    "mobile": "same",
+    "reducedMotion": "built-in matchMedia reduce check renders final state"
+   },
+   "integration": {
+    "exportName": "default (SplitText)",
+    "importPath": "@/components/SplitText",
+    "props": {
+     "text": "string",
+     "tag": "h1",
+     "splitType": "chars",
+     "effect": "rise",
+     "mask": true,
+     "trigger": "load",
+     "delay": 35,
+     "duration": 0.9
+    },
+    "inspectedSource": "src/components/SplitText.tsx SplitTextProps lines 13-37"
+   }
+  },
+  {
+   "name": "Hero year accent",
+   "purpose": "Animated brand gradient on 2027",
+   "file": "src/components/sections/Hero.tsx",
+   "recipeId": "reactbits-text-animations-gradient-text",
+   "variant": "GradientText-TS-TW",
+   "animation": {
+    "trigger": "ambient",
+    "properties": [
+     "background-position"
+    ],
+    "from": "green",
+    "to": "amber then green loop",
+    "timing": "animationSpeed 6s yoyo",
+    "transitionToNext": "static",
+    "mobile": "same",
+    "reducedMotion": "static gradient"
+   },
+   "integration": {
+    "exportName": "default (GradientText)",
+    "importPath": "@/components/GradientText",
+    "props": {
+     "colors": [
+      "#5DB82E",
+      "#F5A524",
+      "#5DB82E"
+     ],
+     "animationSpeed": 6,
+     "yoyo": true
+    },
+    "inspectedSource": "src/components/GradientText.tsx GradientTextProps"
+   }
+  },
+  {
+   "name": "Hero campaign visual stack",
+   "purpose": "Crossfading 2027 campaign banners with scroll parallax",
+   "file": "src/components/sections/Hero.tsx",
+   "recipeId": "motion-examples-react-scroll-container",
+   "animation": {
+    "trigger": "ambient interval + scroll",
+    "properties": [
+     "opacity",
+     "scale",
+     "y"
+    ],
+    "from": "next slide opacity 0 scale 1.06",
+    "to": "opacity 1 scale 1",
+    "timing": "6s interval, 1.1s ease [0.22,1,0.36,1]; parallax y 0 to 12% over hero height",
+    "transitionToNext": "hero content lifts away as About enters",
+    "mobile": "no parallax, tappable dots",
+    "reducedMotion": "no autoplay, manual dots only, no parallax"
+   },
+   "integration": {
+    "exportName": "motion, AnimatePresence, useScroll, useTransform, useReducedMotion",
+    "importPath": "motion/react",
+    "props": {
+     "useScroll": "{ target: heroRef, offset: [\"start start\",\"end start\"] }",
+     "useTransform": "scrollYProgress -> y [0,0.12*h], opacity [1,0.2]",
+     "AnimatePresence": "mode=\"popLayout\" initial={false}"
+    },
+    "inspectedSource": "node_modules/motion/dist/types (motion 14.14.0) exports useScroll(options:{target,offset}), useTransform, AnimatePresence, useReducedMotion"
+   }
+  },
+  {
+   "name": "Primary Register CTA",
+   "purpose": "Register Now external link button used in nav, hero, about, final CTA",
+   "file": "src/components/RegisterButton.tsx",
+   "recipeId": "magicui-docs-components-shimmer-button",
+   "variant": "shimmer-button",
+   "animation": {
+    "trigger": "ambient + hover + active + focus",
+    "properties": [
+     "shimmer conic rotation",
+     "inset shadow",
+     "translate"
+    ],
+    "from": "rest",
+    "to": "hover lift -2px, arrow x+4px",
+    "timing": "shimmer 3s; hover 300ms ease-out",
+    "transitionToNext": "n/a",
+    "mobile": "same, full-width in mobile menu",
+    "reducedMotion": "shimmer spark hidden via motion-reduce"
+   },
+   "integration": {
+    "exportName": "ShimmerButton",
+    "importPath": "@/components/ui/shimmer-button",
+    "props": {
+     "background": "#0E3B7A",
+     "shimmerColor": "#9BE15D",
+     "borderRadius": "999px"
+    },
+    "inspectedSource": "src/components/ui/shimmer-button.tsx ShimmerButtonProps; extended locally to render an anchor when href provided"
+   }
+  },
+  {
+   "name": "Section headings",
+   "purpose": "Per-word blur-slide reveal on all section h2s",
+   "file": "src/components/SectionHeading.tsx",
+   "recipeId": "motion-primitives-text-effect",
+   "variant": "text-effect-TS-TW",
+   "animation": {
+    "trigger": "enter (useInView once)",
+    "properties": [
+     "opacity",
+     "y",
+     "filter blur"
+    ],
+    "from": "opacity 0, y 20, blur 12px",
+    "to": "settled",
+    "timing": "per word 50ms stagger",
+    "transitionToNext": "n/a",
+    "mobile": "same",
+    "reducedMotion": "render plain heading"
+   },
+   "integration": {
+    "exportName": "TextEffect",
+    "importPath": "@/components/ui/text-effect",
+    "props": {
+     "preset": "fade-in-blur",
+     "per": "word",
+     "as": "h2",
+     "trigger": "boolean from useInView"
+    },
+    "inspectedSource": "src/components/ui/text-effect.tsx TextEffectProps"
+   }
+  },
+  {
+   "name": "Section entrances",
+   "purpose": "Staggered fade/slide-up for cards, paragraphs, images",
+   "file": "src/components/Reveal.tsx",
+   "recipeId": "motion-primitives-in-view",
+   "variant": "in-view-TS-TW",
+   "animation": {
+    "trigger": "enter once",
+    "properties": [
+     "opacity",
+     "y",
+     "filter"
+    ],
+    "from": "opacity 0, y 32, blur 6px",
+    "to": "opacity 1, y 0, blur 0",
+    "timing": "0.7s ease [0.22,1,0.36,1], staggered delay index*80ms",
+    "transitionToNext": "n/a",
+    "mobile": "same",
+    "reducedMotion": "opacity only"
+   },
+   "integration": {
+    "exportName": "InView",
+    "importPath": "@/components/ui/in-view",
+    "props": {
+     "once": true,
+     "viewOptions": {
+      "margin": "0px 0px -12% 0px"
+     }
+    },
+    "inspectedSource": "src/components/ui/in-view.tsx InViewProps"
+   }
+  },
+  {
+   "name": "About stats and prize amounts",
+   "purpose": "Counting numbers for 1984, 2014, 11th, distances and prize money on tab change",
+   "file": "src/components/sections/About.tsx",
+   "recipeId": "magicui-docs-components-number-ticker",
+   "variant": "number-ticker",
+   "animation": {
+    "trigger": "enter",
+    "properties": [
+     "text value spring"
+    ],
+    "from": "startValue",
+    "to": "value",
+    "timing": "spring damping 60 stiffness 100",
+    "transitionToNext": "n/a",
+    "mobile": "same",
+    "reducedMotion": "render final value"
+   },
+   "integration": {
+    "exportName": "NumberTicker",
+    "importPath": "@/components/ui/number-ticker",
+    "props": {
+     "value": "number",
+     "startValue": "number"
+    },
+    "inspectedSource": "src/components/ui/number-ticker.tsx NumberTickerProps"
+   }
+  },
+  {
+   "name": "Highlighted card beam",
+   "purpose": "Animated border beam on prize table card and contact form card",
+   "file": "src/components/sections/Prizes.tsx",
+   "recipeId": "magicui-docs-components-border-beam",
+   "variant": "border-beam",
+   "animation": {
+    "trigger": "ambient",
+    "properties": [
+     "offset-distance"
+    ],
+    "from": "0%",
+    "to": "100%",
+    "timing": "duration 8s linear loop",
+    "transitionToNext": "n/a",
+    "mobile": "same",
+    "reducedMotion": "hidden"
+   },
+   "integration": {
+    "exportName": "BorderBeam",
+    "importPath": "@/components/ui/border-beam",
+    "props": {
+     "colorFrom": "#5DB82E",
+     "colorTo": "#F5A524",
+     "duration": 8,
+     "size": 120
+    },
+    "inspectedSource": "src/components/ui/border-beam.tsx BorderBeamProps"
+   }
+  },
+  {
+   "name": "Notes to Participants and FAQ",
+   "purpose": "Animated accessible accordions",
+   "file": "src/components/sections/Faq.tsx",
+   "recipeId": "motion-primitives-accordion",
+   "variant": "accordion-TS-TW",
+   "animation": {
+    "trigger": "activate (click, Enter, Space)",
+    "properties": [
+     "height",
+     "opacity",
+     "icon rotate"
+    ],
+    "from": "collapsed height 0 opacity 0",
+    "to": "expanded auto",
+    "timing": "0.35s ease [0.22,1,0.36,1]",
+    "transitionToNext": "n/a",
+    "mobile": "same",
+    "reducedMotion": "duration 0"
+   },
+   "integration": {
+    "exportName": "Accordion, AccordionItem, AccordionTrigger, AccordionContent",
+    "importPath": "@/components/ui/accordion",
+    "props": {
+     "expandedValue": "key",
+     "onValueChange": "fn",
+     "variants": {
+      "expanded": {
+       "opacity": 1,
+       "height": "auto"
+      },
+      "collapsed": {
+       "opacity": 0,
+       "height": 0
+      }
+     }
+    },
+    "inspectedSource": "src/components/ui/accordion.tsx AccordionProps/AccordionItemProps"
+   }
+  },
+  {
+   "name": "T-Shirt Distribution",
+   "purpose": "Focus cards grid: hovered/focused photo stays sharp, siblings blur",
+   "file": "src/components/sections/Tshirts.tsx",
+   "recipeId": "aceternity-components-layout-grid",
+   "animation": {
+    "trigger": "hover + focus",
+    "properties": [
+     "blur",
+     "scale",
+     "caption opacity"
+    ],
+    "from": "all sharp",
+    "to": "siblings blur-sm scale .98",
+    "timing": "300ms ease-out",
+    "transitionToNext": "n/a",
+    "mobile": "2-col grid, captions visible",
+    "reducedMotion": "no blur/scale"
+   },
+   "integration": {
+    "exportName": "FocusCards",
+    "importPath": "@/components/ui/focus-cards",
+    "props": {
+     "cards": "{title,src}[]"
+    },
+    "inspectedSource": "src/components/ui/focus-cards.tsx installed from https://ui.aceternity.com/registry/focus-cards.json"
+   }
+  },
+  {
+   "name": "Ever-Green Memories bento",
+   "purpose": "Tilt-on-pointer photo bento + scroll-linked column parallax",
+   "file": "src/components/sections/Memories.tsx",
+   "recipeId": "animate-ui-tilt",
+   "variant": "tilt-React",
+   "animation": {
+    "trigger": "hover (pointer) + scroll",
+    "properties": [
+     "rotateX",
+     "rotateY",
+     "translateY parallax"
+    ],
+    "from": "flat",
+    "to": "maxTilt 8deg spring",
+    "timing": "spring stiffness 300 damping 28",
+    "transitionToNext": "campaign archive marquee below",
+    "mobile": "tilt inert on touch, no parallax",
+    "reducedMotion": "no tilt, no parallax"
+   },
+   "integration": {
+    "exportName": "Tilt",
+    "importPath": "@animate-ui/react/primitives/effects/tilt",
+    "props": {
+     "maxTilt": 8,
+     "perspective": 900
+    },
+    "inspectedSource": "node_modules/@animate-ui/react/dist/primitives/effects/tilt/index.d.ts"
+   }
+  },
+  {
+   "name": "Campaign archive marquee",
+   "purpose": "Past banners as a slow marquee",
+   "file": "src/components/sections/Memories.tsx",
+   "recipeId": "magicui-docs-components-marquee",
+   "variant": "marquee",
+   "animation": {
+    "trigger": "ambient",
+    "properties": [
+     "translateX"
+    ],
+    "from": "0",
+    "to": "-100%",
+    "timing": "--duration 60s, pauseOnHover",
+    "transitionToNext": "n/a",
+    "mobile": "same, smaller cards",
+    "reducedMotion": "animation paused; row scrollable"
+   },
+   "integration": {
+    "exportName": "Marquee",
+    "importPath": "@/components/ui/marquee",
+    "props": {
+     "pauseOnHover": true,
+     "repeat": 2
+    },
+    "inspectedSource": "src/components/ui/marquee.tsx MarqueeProps"
+   }
+  },
+  {
+   "name": "Sponsors slider",
+   "purpose": "Sponsor tier logo cards in infinite slider",
+   "file": "src/components/sections/Sponsors.tsx",
+   "recipeId": "motion-primitives-infinite-slider",
+   "variant": "infinite-slider-TS-TW",
+   "animation": {
+    "trigger": "ambient + hover slowdown",
+    "properties": [
+     "translateX"
+    ],
+    "from": "0",
+    "to": "-50%",
+    "timing": "speed 40, speedOnHover 12",
+    "transitionToNext": "n/a",
+    "mobile": "same",
+    "reducedMotion": "static wrapped grid"
+   },
+   "integration": {
+    "exportName": "InfiniteSlider",
+    "importPath": "@/components/ui/infinite-slider",
+    "props": {
+     "gap": 24,
+     "speed": 40,
+     "speedOnHover": 12
+    },
+    "inspectedSource": "src/components/ui/infinite-slider.tsx InfiniteSliderProps"
+   }
+  },
+  {
+   "name": "Sponsors edge blur",
+   "purpose": "Progressive blur on slider edges",
+   "file": "src/components/sections/Sponsors.tsx",
+   "recipeId": "motion-primitives-progressive-blur",
+   "variant": "progressive-blur-TS-TW",
+   "animation": {
+    "trigger": "static layer",
+    "properties": [
+     "backdrop-filter"
+    ],
+    "from": "n/a",
+    "to": "n/a",
+    "timing": "n/a",
+    "transitionToNext": "n/a",
+    "mobile": "narrower",
+    "reducedMotion": "same (no motion)"
+   },
+   "integration": {
+    "exportName": "ProgressiveBlur",
+    "importPath": "@/components/ui/progressive-blur",
+    "props": {
+     "direction": "left or right",
+     "blurIntensity": 1
+    },
+    "inspectedSource": "src/components/ui/progressive-blur.tsx ProgressiveBlurProps"
+   }
+  },
+  {
+   "name": "Navigation",
+   "purpose": "Sticky nav with sliding hover/active pill and animated mobile sheet",
+   "file": "src/components/Navbar.tsx",
+   "recipeId": "motion-examples-react-shared-layout-animation",
+   "animation": {
+    "trigger": "hover/focus + scroll-spy + activate",
+    "properties": [
+     "layoutId pill position",
+     "sheet opacity/y",
+     "link stagger"
+    ],
+    "from": "pill under previous link",
+    "to": "pill under hovered/active link",
+    "timing": "spring stiffness 400 damping 34; sheet 0.45s",
+    "transitionToNext": "n/a",
+    "mobile": "full-screen sheet, staggered links",
+    "reducedMotion": "instant"
+   },
+   "integration": {
+    "exportName": "motion (layoutId), AnimatePresence, LayoutGroup",
+    "importPath": "motion/react",
+    "props": {
+     "motion.span layoutId": "nav-pill",
+     "transition": "{ type:\"spring\", stiffness:400, damping:34 }"
+    },
+    "inspectedSource": "motion 14.14.0 motion/react exports motion components with layoutId and LayoutGroup/AnimatePresence"
+   }
+  },
+  {
+   "name": "Header scroll behaviour",
+   "purpose": "Compact/hide sticky header on scroll direction",
+   "file": "src/components/Navbar.tsx",
+   "recipeId": "motion-examples-react-scroll-hide-header",
+   "animation": {
+    "trigger": "scroll",
+    "properties": [
+     "y",
+     "backdrop opacity",
+     "height"
+    ],
+    "from": "transparent tall header over hero",
+    "to": "solid compact header; hidden while scrolling down past 600px, revealed on scroll up",
+    "timing": "0.35s ease [0.22,1,0.36,1]",
+    "transitionToNext": "n/a",
+    "mobile": "same",
+    "reducedMotion": "no hide translation; only background change"
+   },
+   "integration": {
+    "exportName": "motion, useScroll, useMotionValueEvent",
+    "importPath": "motion/react",
+    "props": {
+     "useMotionValueEvent": "scrollY change -> compact/hidden state"
+    },
+    "inspectedSource": "motion 14.14.0 motion/react exports useScroll and useMotionValueEvent"
+   }
+  },
+  {
+   "name": "Hero slogan band",
+   "purpose": "Leaf-green band of existing slogans whose speed and skew follow scroll velocity (reference: orange date stripe)",
+   "file": "src/components/sections/Hero.tsx",
+   "recipeId": "reactbits-text-animations-scroll-velocity",
+   "variant": "ScrollVelocity-TS-TW",
+   "animation": {
+    "trigger": "ambient + scroll velocity",
+    "properties": [
+     "x",
+     "skewX"
+    ],
+    "from": "base drift 40px/s",
+    "to": "accelerates and skews with scroll velocity",
+    "timing": "damping 50, stiffness 400, skewWithVelocity 6",
+    "transitionToNext": "band sits on the hero/film seam",
+    "mobile": "same, smaller type",
+    "reducedMotion": "component useReducedMotion stops movement; static row"
+   },
+   "integration": {
+    "exportName": "default (ScrollVelocity)",
+    "importPath": "@/components/ScrollVelocity",
+    "props": {
+     "texts": "ReactNode[]",
+     "velocity": 40,
+     "numCopies": 4,
+     "skewWithVelocity": 6,
+     "pauseOnHover": true,
+     "fadeEdges": false
+    },
+    "inspectedSource": "src/components/ScrollVelocity.tsx ScrollVelocityProps"
+   }
+  },
+  {
+   "name": "Hero runner motion trail, glitch and depth",
+   "purpose": "Runner cut-out with layered blurred trail copies, periodic controlled RGB-split glitch bursts, idle stride bob, scroll parallax and fine-pointer parallax",
+   "file": "src/components/sections/Hero.tsx",
+   "recipeId": "motion-examples-react-scroll-container",
+   "animation": {
+    "trigger": "load + ambient + scroll + pointer",
+    "properties": [
+     "x",
+     "y",
+     "opacity",
+     "filter",
+     "clipPath",
+     "scale"
+    ],
+    "from": "runner enters from left with trail stretched, blur 12px",
+    "to": "settled runner, trail compressed behind; every ~4.5s a 260ms RGB split (red/cyan channel copies offset +-8px with sliced clip-path)",
+    "timing": "entrance 1.2s ease [0.22,1,0.36,1]; bob 0.9s mirror loop; glitch keyframes 0.26s repeatDelay 4.2s",
+    "transitionToNext": "scroll moves runner right and scales up 1.15 while giant type drifts left; hero fades into film",
+    "mobile": "trail reduced to 2 copies, no pointer parallax",
+    "reducedMotion": "static runner, no trail motion, no glitch, no parallax"
+   },
+   "integration": {
+    "exportName": "motion, useScroll, useTransform, useSpring, useMotionValue, useReducedMotion",
+    "importPath": "motion/react",
+    "props": {},
+    "inspectedSource": "node_modules/motion (v14) exports"
+   }
+  },
+  {
+   "name": "Running film",
+   "purpose": "Sticky full-screen running film: rounded frame expands to full bleed while scroll scrubs the video time; slogans read over it; ends on the 2027 call to action",
+   "file": "src/components/sections/RunFilm.tsx",
+   "recipeId": "reactbits-animations-scroll-expand",
+   "variant": "ScrollExpand-TS-TW",
+   "animation": {
+    "trigger": "scroll (window)",
+    "properties": [
+     "clip-path",
+     "scale",
+     "opacity",
+     "currentTime"
+    ],
+    "from": "inset frame 46%x58%, radius 28, media zoom 1.3, film at 0s",
+    "to": "full bleed, radius 0, zoom 1, film at last frame",
+    "timing": "expand over 1.1 viewport, hold 2.2 viewports; scroll progress -> video.currentTime with rAF seek coalescing; ScrollExpand smoothing 0.1",
+    "transitionToNext": "bottom gradient into paper About section",
+    "mobile": "720p mobile encode, same choreography",
+    "reducedMotion": "no video fetch; poster still at full bleed with overlay copy visible"
+   },
+   "integration": {
+    "exportName": "default (ScrollExpand)",
+    "importPath": "@/components/ScrollExpand",
+    "props": {
+     "mediaType": "video",
+     "useWindowScroll": true,
+     "scrub": true,
+     "videoRef": "RefObject<HTMLVideoElement>",
+     "poster": "string",
+     "title": "ReactNode",
+     "children": "ReactNode"
+    },
+    "inspectedSource": "src/components/ScrollExpand.tsx ScrollExpandProps (locally extended with scrub + videoRef)"
+   }
+  },
+  {
+   "name": "Film scrub controller and captions",
+   "purpose": "Map section scroll progress to video time and to caption opacity",
+   "file": "src/components/sections/RunFilm.tsx",
+   "recipeId": "motion-examples-react-scroll-container",
+   "animation": {
+    "trigger": "scroll",
+    "properties": [
+     "currentTime",
+     "opacity",
+     "y"
+    ],
+    "from": "caption hidden y 24",
+    "to": "caption visible then out as next caption enters",
+    "timing": "useScroll target section offset start start/end end; captions at 0.28-0.46, 0.5-0.68",
+    "transitionToNext": "final CTA overlay",
+    "mobile": "same",
+    "reducedMotion": "captions static list"
+   },
+   "integration": {
+    "exportName": "useScroll, useTransform, useMotionValueEvent, motion",
+    "importPath": "motion/react",
+    "props": {},
+    "inspectedSource": "node_modules/motion (v14)"
+   }
+  },
+  {
+   "name": "Statement reveal",
+   "purpose": "Large statement (MEPZ Run 2027 is back—Bigger, Greener, Faster.) lights up word by word with scroll (reference: Running isn’t about speed)",
+   "file": "src/components/sections/Statement.tsx",
+   "recipeId": "magicui-docs-components-text-reveal",
+   "variant": "text-reveal",
+   "animation": {
+    "trigger": "scroll",
+    "properties": [
+     "opacity"
+    ],
+    "from": "words at 0.2 opacity",
+    "to": "each word to 1 across its scroll slice",
+    "timing": "section 200vh sticky, linear per-word ranges",
+    "transitionToNext": "About section follows",
+    "mobile": "same, smaller type",
+    "reducedMotion": "full-opacity text (MotionConfig + CSS override)"
+   },
+   "integration": {
+    "exportName": "TextReveal",
+    "importPath": "@/components/ui/text-reveal",
+    "props": {
+     "children": "string",
+     "className": "string"
+    },
+    "inspectedSource": "src/components/ui/text-reveal.tsx"
+   }
+  }
+ ]
+}

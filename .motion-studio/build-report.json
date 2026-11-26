@@ -1,0 +1,588 @@
+{
+  "generatedAt": "2026-11-26T09:39:16.502Z",
+  "motionLevel": 3,
+  "sourceMode": "mixed",
+  "sources": [
+    "reactbits",
+    "magicui",
+    "aceternity",
+    "motion",
+    "animate-ui",
+    "motion-primitives"
+  ],
+  "project": {
+    "framework": "react 19.3.1",
+    "bundler": "vite 8.3.8",
+    "styling": "tailwindcss 4.3.5",
+    "language": "typescript 7.0.2",
+    "motion": "14.14.0",
+    "gsap": "3.15.1",
+    "@animate-ui/react": "2.4.6"
+  },
+  "build": {
+    "command": "npm run build",
+    "result": "success (tsc -b + vite build)"
+  },
+  "components": [
+    {
+      "recipeId": "reactbits-text-animations-split-text",
+      "provider": "React Bits",
+      "installation": {
+        "command": "npx shadcn@latest add https://reactbits.dev/r/SplitText-TS-TW.json",
+        "result": "success"
+      },
+      "installed": "src/components/SplitText.tsx",
+      "import": {
+        "module": "src/components/sections/Hero.tsx, FinalCta.tsx, pages/TermsPage.tsx",
+        "export": "default"
+      },
+      "rendered": {
+        "route": "/ and /terms-conditions/",
+        "selector": "#top stage .split-parent"
+      },
+      "observed": {
+        "trigger": "load (hero, terms) / view (final CTA)",
+        "states": "chars masked below baseline -> settled; hidden until fonts load"
+      },
+      "evidence": {
+        "desktop": "Observed in Chrome (vite preview, production build) at 1568px desktop",
+        "mobile": "Rendered in 390px and 768px same-origin iframes: no horizontal overflow, no heading overflow"
+      }
+    },
+    {
+      "recipeId": "reactbits-text-animations-gradient-text",
+      "provider": "React Bits",
+      "installation": {
+        "command": "npx shadcn@latest add https://reactbits.dev/r/GradientText-TS-TW.json",
+        "result": "success"
+      },
+      "installed": "src/components/GradientText.tsx",
+      "import": {
+        "module": "src/components/sections/Hero.tsx",
+        "export": "default"
+      },
+      "rendered": {
+        "route": "/",
+        "selector": "#top h1 (2027)"
+      },
+      "observed": {
+        "trigger": "ambient",
+        "states": "green -> amber gradient loop"
+      },
+      "evidence": {
+        "desktop": "Observed in Chrome (vite preview, production build) at 1568px desktop",
+        "mobile": "Rendered in 390px and 768px same-origin iframes: no horizontal overflow, no heading overflow"
+      }
+    },
+    {
+      "recipeId": "magicui-docs-components-shimmer-button",
+      "provider": "Magic UI",
+      "installation": {
+        "command": "npx shadcn@latest add https://magicui.design/r/shimmer-button.json",
+        "result": "success"
+      },
+      "installed": "src/components/ui/shimmer-button.tsx (extended: href renders <a>)",
+      "import": {
+        "module": "src/components/RegisterButton.tsx",
+        "export": "ShimmerButton"
+      },
+      "rendered": {
+        "route": "/ and /terms-conditions/",
+        "selector": "a[href*=\"reg.myraceindia.com\"]"
+      },
+      "observed": {
+        "trigger": "ambient shimmer, hover lift + arrow rotate, active press",
+        "states": "rest -> hover; spark hidden under reduced motion"
+      },
+      "evidence": {
+        "desktop": "Observed in Chrome (vite preview, production build) at 1568px desktop",
+        "mobile": "Rendered in 390px and 768px same-origin iframes: no horizontal overflow, no heading overflow"
+      }
+    },
+    {
+      "recipeId": "motion-primitives-text-effect",
+      "provider": "Motion Primitives",
+      "installation": {
+        "command": "npx shadcn@latest add https://motion-primitives.com/c/text-effect.json",
+        "result": "success"
+      },
+      "installed": "src/components/ui/text-effect.tsx (patched: whitespace segments collapse at wraps)",
+      "import": {
+        "module": "src/components/SectionHeading.tsx",
+        "export": "TextEffect"
+      },
+      "rendered": {
+        "route": "/",
+        "selector": "section h2 + aria-hidden span.headline"
+      },
+      "observed": {
+        "trigger": "enter (useInView once)",
+        "states": "per-word blur/slide -> settled"
+      },
+      "evidence": {
+        "desktop": "Observed in Chrome (vite preview, production build) at 1568px desktop",
+        "mobile": "Rendered in 390px and 768px same-origin iframes: no horizontal overflow, no heading overflow"
+      }
+    },
+    {
+      "recipeId": "motion-primitives-in-view",
+      "provider": "Motion Primitives",
+      "installation": {
+        "command": "npx shadcn@latest add https://motion-primitives.com/c/in-view.json",
+        "result": "success"
+      },
+      "installed": "src/components/ui/in-view.tsx (extended: className/style)",
+      "import": {
+        "module": "src/components/Reveal.tsx",
+        "export": "InView"
+      },
+      "rendered": {
+        "route": "/ and /terms-conditions/",
+        "selector": "all Reveal wrappers"
+      },
+      "observed": {
+        "trigger": "enter once",
+        "states": "opacity 0, y 32, blur 6px -> settled"
+      },
+      "evidence": {
+        "desktop": "Observed in Chrome (vite preview, production build) at 1568px desktop",
+        "mobile": "Rendered in 390px and 768px same-origin iframes: no horizontal overflow, no heading overflow"
+      }
+    },
+    {
+      "recipeId": "magicui-docs-components-number-ticker",
+      "provider": "Magic UI",
+      "installation": {
+        "command": "npx shadcn@latest add https://magicui.design/r/number-ticker.json",
+        "result": "success"
+      },
+      "installed": "src/components/ui/number-ticker.tsx (extended: locale, useGrouping, spring tuning, reduced-motion jump)",
+      "import": {
+        "module": "src/components/sections/About.tsx, Prizes.tsx",
+        "export": "NumberTicker"
+      },
+      "rendered": {
+        "route": "/",
+        "selector": "#about stats, #prizes table cells"
+      },
+      "observed": {
+        "trigger": "enter / tab change",
+        "states": "counts to value; prize rows verified 18/18 against source; sr-only exact values"
+      },
+      "evidence": {
+        "desktop": "Observed in Chrome (vite preview, production build) at 1568px desktop",
+        "mobile": "Rendered in 390px and 768px same-origin iframes: no horizontal overflow, no heading overflow"
+      }
+    },
+    {
+      "recipeId": "magicui-docs-components-border-beam",
+      "provider": "Magic UI",
+      "installation": {
+        "command": "npx shadcn@latest add https://magicui.design/r/border-beam.json",
+        "result": "success"
+      },
+      "installed": "src/components/ui/border-beam.tsx",
+      "import": {
+        "module": "src/components/sections/Prizes.tsx, Contact.tsx",
+        "export": "BorderBeam"
+      },
+      "rendered": {
+        "route": "/",
+        "selector": "#prizes table card, #contact form card"
+      },
+      "observed": {
+        "trigger": "ambient",
+        "states": "beam travels border; hidden under reduced motion"
+      },
+      "evidence": {
+        "desktop": "Observed in Chrome (vite preview, production build) at 1568px desktop",
+        "mobile": "Rendered in 390px and 768px same-origin iframes: no horizontal overflow, no heading overflow"
+      }
+    },
+    {
+      "recipeId": "motion-primitives-accordion",
+      "provider": "Motion Primitives",
+      "installation": {
+        "command": "npx shadcn@latest add https://motion-primitives.com/c/accordion.json",
+        "result": "success"
+      },
+      "installed": "src/components/ui/accordion.tsx (typing fix for React 19)",
+      "import": {
+        "module": "src/components/sections/Faq.tsx, Prizes.tsx",
+        "export": "Accordion, AccordionItem, AccordionTrigger, AccordionContent"
+      },
+      "rendered": {
+        "route": "/",
+        "selector": "#faq and #prizes accordion triggers"
+      },
+      "observed": {
+        "trigger": "activate",
+        "states": "collapsed -> expanded; 10 triggers verified, aria-expanded toggles"
+      },
+      "evidence": {
+        "desktop": "Observed in Chrome (vite preview, production build) at 1568px desktop",
+        "mobile": "Rendered in 390px and 768px same-origin iframes: no horizontal overflow, no heading overflow"
+      }
+    },
+    {
+      "recipeId": "aceternity-components-layout-grid (Focus Cards variant)",
+      "provider": "Aceternity UI",
+      "installation": {
+        "command": "npx shadcn@latest add https://ui.aceternity.com/registry/focus-cards.json",
+        "result": "success"
+      },
+      "installed": "src/components/ui/focus-cards.tsx (adapted: keyboard focus, image fill, touch captions)",
+      "import": {
+        "module": "src/components/sections/Tshirts.tsx",
+        "export": "FocusCards"
+      },
+      "rendered": {
+        "route": "/",
+        "selector": "#tshirts figure"
+      },
+      "observed": {
+        "trigger": "hover / focus",
+        "states": "siblings blur-sm scale .98"
+      },
+      "evidence": {
+        "desktop": "Observed in Chrome (vite preview, production build) at 1568px desktop",
+        "mobile": "Rendered in 390px and 768px same-origin iframes: no horizontal overflow, no heading overflow"
+      }
+    },
+    {
+      "recipeId": "reactbits-components-tilted-card",
+      "provider": "React Bits",
+      "installation": {
+        "command": "npx shadcn@latest add https://reactbits.dev/r/TiltedCard-TS-TW.json",
+        "result": "success"
+      },
+      "installed": "src/components/TiltedCard.tsx",
+      "import": {
+        "module": "src/components/sections/About.tsx",
+        "export": "default (TiltedCard)"
+      },
+      "rendered": {
+        "route": "/",
+        "selector": "#about figure.tilted-card"
+      },
+      "observed": {
+        "trigger": "pointer move / intro / ambient float",
+        "states": "tilts up to 9deg toward cursor with glare and shadow; verified on hover; library honours reduced motion"
+      },
+      "evidence": {
+        "desktop": "Observed in Chrome (vite preview, production build) at 1568px desktop",
+        "mobile": "Rendered in 390px and 768px same-origin iframes: no horizontal overflow, no heading overflow"
+      }
+    },
+    {
+      "recipeId": "reactbits-text-animations-circular-text",
+      "provider": "React Bits",
+      "installation": {
+        "command": "npx shadcn@latest add https://reactbits.dev/r/CircularText-TS-TW.json (then npm install motion@^14.14.0 to undo its motion@12 pin)",
+        "result": "success"
+      },
+      "installed": "src/components/CircularText.tsx",
+      "import": {
+        "module": "src/components/sections/About.tsx",
+        "export": "default (CircularText)"
+      },
+      "rendered": {
+        "route": "/",
+        "selector": "#about since-2014 badge"
+      },
+      "observed": {
+        "trigger": "ambient spin, speeds up on hover, draggable",
+        "states": "MEPZ RUN • SINCE 2014 ring spins 18s/turn; static under reduced motion"
+      },
+      "evidence": {
+        "desktop": "Observed in Chrome (vite preview, production build) at 1568px desktop",
+        "mobile": "Rendered in 390px and 768px same-origin iframes: no horizontal overflow, no heading overflow"
+      }
+    },
+    {
+      "recipeId": "reactbits-components-accordion-gallery",
+      "provider": "React Bits",
+      "installation": {
+        "command": "npx shadcn@latest add https://reactbits.dev/r/AccordionGallery-TS-TW.json",
+        "result": "success"
+      },
+      "installed": "src/components/AccordionGallery.tsx (images lazy-loaded)",
+      "import": {
+        "module": "src/components/sections/Memories.tsx",
+        "export": "default (AccordionGallery)"
+      },
+      "rendered": {
+        "route": "/",
+        "selector": "#memories [role=list]"
+      },
+      "observed": {
+        "trigger": "hover / focus / arrow keys / tap",
+        "states": "active panel expands in colour with parallax, others slim + tilted 6deg + desaturated; verified focus on panel 6 expands it; vertical stack on <640px"
+      },
+      "evidence": {
+        "desktop": "Observed in Chrome (vite preview, production build) at 1568px desktop",
+        "mobile": "Rendered in 390px and 768px same-origin iframes: no horizontal overflow, no heading overflow"
+      }
+    },
+    {
+      "recipeId": "magicui-docs-components-marquee",
+      "provider": "Magic UI",
+      "installation": {
+        "command": "npx shadcn@latest add https://magicui.design/r/marquee.json",
+        "result": "success"
+      },
+      "installed": "src/components/ui/marquee.tsx",
+      "import": {
+        "module": "src/components/sections/Memories.tsx",
+        "export": "Marquee"
+      },
+      "rendered": {
+        "route": "/",
+        "selector": "#memories campaign banners"
+      },
+      "observed": {
+        "trigger": "ambient, pause on hover",
+        "states": "translateX loop; paused under reduced motion (CSS)"
+      },
+      "evidence": {
+        "desktop": "Observed in Chrome (vite preview, production build) at 1568px desktop",
+        "mobile": "Rendered in 390px and 768px same-origin iframes: no horizontal overflow, no heading overflow"
+      }
+    },
+    {
+      "recipeId": "motion-primitives-infinite-slider",
+      "provider": "Motion Primitives",
+      "installation": {
+        "command": "npx shadcn@latest add https://motion-primitives.com/c/infinite-slider.json",
+        "result": "success"
+      },
+      "installed": "src/components/ui/infinite-slider.tsx",
+      "import": {
+        "module": "src/components/sections/Sponsors.tsx",
+        "export": "InfiniteSlider"
+      },
+      "rendered": {
+        "route": "/",
+        "selector": "#sponsors slider"
+      },
+      "observed": {
+        "trigger": "ambient, slows on hover",
+        "states": "loop; static grid under reduced motion"
+      },
+      "evidence": {
+        "desktop": "Observed in Chrome (vite preview, production build) at 1568px desktop",
+        "mobile": "Rendered in 390px and 768px same-origin iframes: no horizontal overflow, no heading overflow"
+      }
+    },
+    {
+      "recipeId": "motion-primitives-progressive-blur",
+      "provider": "Motion Primitives",
+      "installation": {
+        "command": "npx shadcn@latest add https://motion-primitives.com/c/progressive-blur.json",
+        "result": "success"
+      },
+      "installed": "src/components/ui/progressive-blur.tsx",
+      "import": {
+        "module": "src/components/sections/Sponsors.tsx",
+        "export": "ProgressiveBlur"
+      },
+      "rendered": {
+        "route": "/",
+        "selector": "#sponsors slider edges"
+      },
+      "observed": {
+        "trigger": "static layer",
+        "states": "edge blur"
+      },
+      "evidence": {
+        "desktop": "Observed in Chrome (vite preview, production build) at 1568px desktop",
+        "mobile": "Rendered in 390px and 768px same-origin iframes: no horizontal overflow, no heading overflow"
+      }
+    },
+    {
+      "recipeId": "motion-examples-react-scroll-container",
+      "provider": "Motion",
+      "installation": {
+        "command": "npm install motion@^14",
+        "result": "success"
+      },
+      "installed": "node_modules/motion 14.14.0",
+      "import": {
+        "module": "src/components/sections/Hero.tsx, About.tsx, FinalCta.tsx",
+        "export": "motion, AnimatePresence, useScroll, useTransform"
+      },
+      "rendered": {
+        "route": "/",
+        "selector": "#top campaign card, #about photos"
+      },
+      "observed": {
+        "trigger": "ambient interval + scroll",
+        "states": "crossfade every 6s with progress dots; scroll parallax"
+      },
+      "evidence": {
+        "desktop": "Observed in Chrome (vite preview, production build) at 1568px desktop",
+        "mobile": "Rendered in 390px and 768px same-origin iframes: no horizontal overflow, no heading overflow"
+      }
+    },
+    {
+      "recipeId": "reactbits-text-animations-scroll-velocity",
+      "provider": "React Bits",
+      "installation": {
+        "command": "npx shadcn@latest add https://reactbits.dev/r/ScrollVelocity-TS-TW.json",
+        "result": "success"
+      },
+      "installed": "src/components/ScrollVelocity.tsx (unused rAF arg renamed for TS)",
+      "import": {
+        "module": "src/components/sections/Hero.tsx",
+        "export": "default (ScrollVelocity)"
+      },
+      "rendered": {
+        "route": "/",
+        "selector": "#top leaf-green slogan band"
+      },
+      "observed": {
+        "trigger": "ambient + scroll velocity, pause on hover",
+        "states": "drifts 40px/s, accelerates and skews (6deg) with scroll velocity; static under reduced motion"
+      },
+      "evidence": {
+        "desktop": "Observed in Chrome (vite preview, production build) at 1568px desktop",
+        "mobile": "Rendered in 390px and 768px same-origin iframes: no horizontal overflow, no heading overflow"
+      }
+    },
+    {
+      "recipeId": "reactbits-animations-scroll-expand",
+      "provider": "React Bits",
+      "installation": {
+        "command": "npx shadcn@latest add https://reactbits.dev/r/ScrollExpand-TS-TW.json",
+        "result": "success"
+      },
+      "installed": "src/components/ScrollExpand.tsx (extended: scrub + videoRef, title as ReactNode)",
+      "import": {
+        "module": "src/components/sections/RunFilm.tsx",
+        "export": "default (ScrollExpand)"
+      },
+      "rendered": {
+        "route": "/",
+        "selector": "#film"
+      },
+      "observed": {
+        "trigger": "scroll (window)",
+        "states": "rounded 46%x58% frame -> full bleed over 1.1 viewports; verified video.currentTime matches scroll progress (0.3->4.51s, 0.5->7.52s, 0.9->13.54s, reverse 0.3->4.51s); mobile encode used at 390px"
+      },
+      "evidence": {
+        "desktop": "Observed in Chrome (vite preview, production build) at 1568px desktop",
+        "mobile": "Rendered in 390px and 768px same-origin iframes: no horizontal overflow, no heading overflow"
+      }
+    },
+    {
+      "recipeId": "magicui-docs-components-text-reveal",
+      "provider": "Magic UI",
+      "installation": {
+        "command": "npx shadcn@latest add https://magicui.design/r/text-reveal.json",
+        "result": "success"
+      },
+      "installed": "src/components/ui/text-reveal.tsx (extended: textClassName, wordClassName)",
+      "import": {
+        "module": "src/components/sections/Statement.tsx",
+        "export": "TextReveal"
+      },
+      "rendered": {
+        "route": "/",
+        "selector": "section[aria-label^=\"MEPZ Run 2027 is back\"]"
+      },
+      "observed": {
+        "trigger": "scroll",
+        "states": "words light from 0.15 to 1 across 220vh sticky span; plain text under reduced motion"
+      },
+      "evidence": {
+        "desktop": "Observed in Chrome (vite preview, production build) at 1568px desktop",
+        "mobile": "Rendered in 390px and 768px same-origin iframes: no horizontal overflow, no heading overflow"
+      }
+    },
+    {
+      "recipeId": "motion-examples-react-scroll-container (hero runner)",
+      "provider": "Motion",
+      "installation": {
+        "command": "npm install motion@^14",
+        "result": "success"
+      },
+      "installed": "node_modules/motion 14.14.0",
+      "import": {
+        "module": "src/components/sections/Hero.tsx, RunFilm.tsx",
+        "export": "motion, useScroll, useTransform, useSpring, useMotionValue, useMotionValueEvent"
+      },
+      "rendered": {
+        "route": "/",
+        "selector": "#top runner stage, #film captions and scrub loop"
+      },
+      "observed": {
+        "trigger": "load + ambient + scroll + fine pointer",
+        "states": "runner enters from left with blur, trail copies pulse, 0.28s RGB-split glitch every ~4.7s, stride bob; scroll parallax and pointer parallax; film captions fade on progress"
+      },
+      "evidence": {
+        "desktop": "Observed in Chrome (vite preview, production build) at 1568px desktop",
+        "mobile": "Rendered in 390px and 768px same-origin iframes: no horizontal overflow, no heading overflow"
+      }
+    },
+    {
+      "recipeId": "motion-examples-react-shared-layout-animation",
+      "provider": "Motion",
+      "installation": {
+        "command": "npm install motion@^14",
+        "result": "success"
+      },
+      "installed": "node_modules/motion 14.14.0",
+      "import": {
+        "module": "src/components/Navbar.tsx, Prizes.tsx, pages/TermsPage.tsx",
+        "export": "motion (layoutId), LayoutGroup"
+      },
+      "rendered": {
+        "route": "/ and /terms-conditions/",
+        "selector": "nav pill, prize tab pill, terms TOC pill"
+      },
+      "observed": {
+        "trigger": "hover / focus / scroll-spy / activate",
+        "states": "pill springs between items; scroll-spy verified (Contact active at #contact)"
+      },
+      "evidence": {
+        "desktop": "Observed in Chrome (vite preview, production build) at 1568px desktop",
+        "mobile": "Rendered in 390px and 768px same-origin iframes: no horizontal overflow, no heading overflow"
+      }
+    },
+    {
+      "recipeId": "motion-examples-react-scroll-hide-header",
+      "provider": "Motion",
+      "installation": {
+        "command": "npm install motion@^14",
+        "result": "success"
+      },
+      "installed": "node_modules/motion 14.14.0",
+      "import": {
+        "module": "src/components/Navbar.tsx",
+        "export": "useScroll, useMotionValueEvent, AnimatePresence"
+      },
+      "rendered": {
+        "route": "/ and /terms-conditions/",
+        "selector": "header, #mobile-menu"
+      },
+      "observed": {
+        "trigger": "scroll direction; menu activate",
+        "states": "compact header after 24px, hides on scroll down past 640px; mobile sheet circle-reveal with staggered links (verified open)"
+      },
+      "evidence": {
+        "desktop": "Observed in Chrome (vite preview, production build) at 1568px desktop",
+        "mobile": "Rendered in 390px and 768px same-origin iframes: no horizontal overflow, no heading overflow"
+      }
+    }
+  ],
+  "accessibility": {
+    "reducedMotion": "MotionConfig reducedMotion=\"user\" at root; registry CSS loops paused; tickers jump to value; slider becomes static grid; SplitText built-in check. Not visually verified with OS-level emulation in this session.",
+    "keyboard": "skip link, focus-visible outlines, accordion buttons, tablist for prize distances, Escape closes mobile menu"
+  },
+  "limitations": [
+    "Reduced-motion paths implemented and code-reviewed but not emulated in a browser",
+    "Hero runner and film are AI-generated with Higgsfield (GPT Image 2.6 + Seedance 2.5, 720p) from prompts; runner cut-out is 730x952 so it is slightly soft on very large retina screens",
+    "Film scrub uses a same-origin MP4 (preload auto) instead of a Blob URL: Blob-backed media never finished seeking in the QA Chrome. Smoothness was verified at frame accuracy, not at 60fps, because the automation tab throttles requestAnimationFrame to ~1fps",
+    "Visual QA at 1568px desktop plus 390px/768px iframes; not tested on physical devices or Safari"
+  ]
+}

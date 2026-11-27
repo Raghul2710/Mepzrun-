@@ -12,7 +12,6 @@ import {
 import { ArrowDown, Expand } from 'lucide-react'
 import { Lightbox } from '@/components/Lightbox'
 import SplitText from '@/components/SplitText'
-import GradientText from '@/components/GradientText'
 import ScrollVelocity from '@/components/ScrollVelocity'
 import { RegisterButton } from '@/components/RegisterButton'
 import { campaignLines, heroSlides, slogans } from '@/content/site'
@@ -42,8 +41,8 @@ const STREAKS = [
  * - Oversized MEPZ RUN: React Bits SplitText, bleeding past the viewport; drifts left on scroll.
  * - Runner (AI-generated cut-out): Motion entrance, blurred trail copies, stride bob, controlled
  *   RGB-split glitch bursts, scroll + fine-pointer parallax (recipe: motion-examples-react-scroll-container).
- * - 2027 tag: React Bits GradientText.
  * - Campaign artwork card: Motion AnimatePresence crossfade.
+ * - QR "Scan to register" card: bottom-right on desktop, below the artwork on mobile.
  * - Slogan band: React Bits ScrollVelocity.
  */
 export function Hero() {
@@ -264,18 +263,6 @@ export function Hero() {
             </motion.div>
           </motion.div>
         </motion.div>
-
-        {/* 2027 tag */}
-        <motion.div aria-hidden style={{ opacity: fade }} className="absolute top-[62%] right-[4%] z-10 lg:top-[72%] lg:right-[3%]">
-          <motion.span
-            initial={{ opacity: 0, scale: 0.8, rotate: -14 }}
-            animate={{ opacity: 1, scale: 1, rotate: -6 }}
-            transition={{ duration: 0.9, ease: EASE, delay: 0.9 }} className="headline block rounded-xl border-2 border-leaf-400 bg-[#03100a]/75 px-3 py-1.5 text-[clamp(1.75rem,4.6vw,4.25rem)] shadow-[0_0_32px_rgba(126,211,72,0.3)] backdrop-blur-sm lg:px-4 lg:py-1.5">
-            <GradientText colors={['#7ed348', '#f5a524', '#a6e07c', '#7ed348']} animationSpeed={6} yoyo>
-              2027
-            </GradientText>
-          </motion.span>
-        </motion.div>
       </div>
 
       {/* Bottom copy */}
@@ -397,13 +384,18 @@ export function Hero() {
             </p>
           </div>
         </motion.div>
+      </motion.div>
 
-        {/* QR code card */}
+      {/* QR code card — bottom right on desktop */}
+      <motion.div
+        style={{ opacity: fade }}
+        className="container-x relative z-30 order-4 pb-10 lg:absolute lg:right-12 lg:bottom-32 lg:left-auto lg:w-[340px] lg:max-w-none lg:px-0 lg:pb-0 xl:w-[380px]"
+      >
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: EASE, delay: 0.9 }}
-          className="mt-3 flex items-center gap-4 rounded-[1.4rem] border border-leaf-400/25 bg-[#04150b]/90 p-2 pr-4 shadow-[0_20px_50px_rgba(0,0,0,0.45)] backdrop-blur-md"
+          className="flex items-center gap-4 rounded-[1.4rem] border border-leaf-400/25 bg-[#04150b]/90 p-2 pr-4 shadow-[0_20px_50px_rgba(0,0,0,0.45)] backdrop-blur-md"
         >
           <div className="relative shrink-0 rounded-[1rem] bg-white p-1.5 shadow-[0_0_28px_rgba(126,211,72,0.25)] ring-2 ring-leaf-400/70">
             <img

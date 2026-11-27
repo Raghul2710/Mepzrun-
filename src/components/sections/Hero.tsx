@@ -9,7 +9,8 @@ import {
   useSpring,
   useTransform,
 } from 'motion/react'
-import { ArrowDown } from 'lucide-react'
+import { ArrowDown, Expand } from 'lucide-react'
+import { Lightbox } from '@/components/Lightbox'
 import SplitText from '@/components/SplitText'
 import GradientText from '@/components/GradientText'
 import ScrollVelocity from '@/components/ScrollVelocity'
@@ -50,6 +51,7 @@ export function Hero() {
   const reduce = useReducedMotion()
   const [index, setIndex] = useState(0)
   const [paused, setPaused] = useState(false)
+  const [viewer, setViewer] = useState(false)
 
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
   const typeX = useTransform(scrollYProgress, [0, 1], ['0%', reduce ? '0%' : '-16%'])
@@ -76,10 +78,10 @@ export function Hero() {
   }
 
   useEffect(() => {
-    if (reduce || paused) return
+    if (reduce || paused || viewer) return
     const t = window.setTimeout(() => setIndex((i) => (i + 1) % heroSlides.length), SLIDE_MS)
     return () => window.clearTimeout(t)
-  }, [index, reduce, paused])
+  }, [index, reduce, paused, viewer])
 
   const glitch = (dx: number[], clip: string[]) =>
     reduce
@@ -156,7 +158,7 @@ export function Hero() {
         <motion.div
           aria-hidden
           style={{ x: typeX }}
-          className="absolute inset-x-0 top-[46%] -translate-y-1/2 lg:top-[57%]"
+          className="absolute inset-x-0 top-[46%] -translate-y-1/2 lg:top-[min(57%,calc(100%-19rem-4.8vw))]"
         >
           <motion.div style={{ x: typePX }} className="flex justify-center">
             <div className="headline w-max shrink-0 text-center leading-[0.8] whitespace-nowrap text-[#e9f7df]">
@@ -268,7 +270,7 @@ export function Hero() {
           <motion.span
             initial={{ opacity: 0, scale: 0.8, rotate: -14 }}
             animate={{ opacity: 1, scale: 1, rotate: -6 }}
-            transition={{ duration: 0.9, ease: EASE, delay: 0.9 }} className="headline block rounded-xl border-2 border-leaf-400 bg-[#03100a]/75 px-3 py-1.5 text-[clamp(2.4rem,7vw,6.5rem)] shadow-[0_0_40px_rgba(126,211,72,0.35)] backdrop-blur-sm lg:px-5 lg:py-2">
+            transition={{ duration: 0.9, ease: EASE, delay: 0.9 }} className="headline block rounded-xl border-2 border-leaf-400 bg-[#03100a]/75 px-3 py-1.5 text-[clamp(1.75rem,4.6vw,4.25rem)] shadow-[0_0_32px_rgba(126,211,72,0.3)] backdrop-blur-sm lg:px-4 lg:py-1.5">
             <GradientText colors={['#7ed348', '#f5a524', '#a6e07c', '#7ed348']} animationSpeed={6} yoyo>
               2027
             </GradientText>
@@ -315,7 +317,7 @@ export function Hero() {
       {/* Campaign artwork card */}
       <motion.div
         style={{ opacity: fade }}
-        className="container-x relative z-20 order-4 pb-10 lg:absolute lg:top-28 lg:right-12 lg:left-auto lg:w-[340px] lg:max-w-none lg:px-0 lg:pb-0 xl:w-[380px]"
+        className="container-x relative z-30 order-4 pb-10 lg:absolute lg:top-28 lg:right-12 lg:left-auto lg:w-[340px] lg:max-w-none lg:px-0 lg:pb-0 xl:w-[380px]"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
         onFocusCapture={() => setPaused(true)}
@@ -346,6 +348,22 @@ export function Hero() {
                 draggable={false}
               />
             </AnimatePresence>
+            {/* Click / tap opens the image in a popup */}
+            <button
+              type="button"
+              onClick={() => setViewer(true)}
+              aria-haspopup="dialog"
+              aria-label={`View larger: ${heroSlides[index].alt}`}
+              className="group/zoom absolute inset-0 z-10 cursor-zoom-in focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-leaf-400"
+            >
+              <span aria-hidden className="absolute inset-0 bg-forest-950/0 transition-colors duration-300 group-hover/zoom:bg-forest-950/15" />
+              <span
+                aria-hidden
+                className="absolute right-2.5 bottom-2.5 grid size-9 place-items-center rounded-full bg-forest-950/70 text-white opacity-80 shadow-lg ring-1 ring-white/20 backdrop-blur-md transition-[opacity,transform] duration-300 group-hover/zoom:scale-110 group-hover/zoom:opacity-100"
+              >
+                <Expand className="size-4" />
+              </span>
+            </button>
           </div>
           <div className="flex items-center justify-between gap-4 px-2 pt-3 pb-1">
             <div className="flex items-center gap-2" role="tablist" aria-label="Choose campaign slide">
@@ -379,6 +397,34 @@ export function Hero() {
             </p>
           </div>
         </motion.div>
+
+        {/* QR code card */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: EASE, delay: 0.9 }}
+          className="mt-3 flex items-center gap-4 rounded-[1.4rem] border border-leaf-400/25 bg-[#04150b]/90 p-2 pr-4 shadow-[0_20px_50px_rgba(0,0,0,0.45)] backdrop-blur-md"
+        >
+          <div className="relative shrink-0 rounded-[1rem] bg-white p-1.5 shadow-[0_0_28px_rgba(126,211,72,0.25)] ring-2 ring-leaf-400/70">
+            <img
+              src="/media/mepzrun-qr.png"
+              alt="QR code to register for MEPZ Run 2027"
+              width={500}
+              height={500}
+              loading="lazy"
+              draggable={false}
+              className="size-24 rounded-md xl:size-28"
+            />
+          </div>
+          <div className="min-w-0">
+            <p className="eyebrow text-[0.7rem] text-leaf-300">
+              <span aria-hidden className="size-1.5 rounded-full bg-leaf-400 shadow-[0_0_10px_2px] shadow-leaf-400/70" />
+              Scan me
+            </p>
+            <p className="headline-cond mt-1 text-xl leading-tight text-white xl:text-2xl">Scan to register</p>
+            <p className="mt-1 text-sm text-white/60">Point your phone camera at the code to sign up.</p>
+          </div>
+        </motion.div>
       </motion.div>
 
       {/* Slogan band */}
@@ -407,6 +453,15 @@ export function Hero() {
           gap={32}
         />
       </div>
+
+      <Lightbox
+        images={heroSlides}
+        index={index}
+        open={viewer}
+        onIndex={setIndex}
+        onClose={() => setViewer(false)}
+        label="MEPZ Run 2027 campaign"
+      />
     </section>
   )
 }

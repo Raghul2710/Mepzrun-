@@ -122,7 +122,7 @@ export function Navbar({ page = 'home' }: { page?: 'home' | 'terms' }) {
                 aria-expanded={open}
                 aria-controls="mobile-menu"
                 aria-label={open ? 'Close menu' : 'Open menu'}
-                className="relative z-10 grid size-11 place-items-center rounded-full border border-white/15 bg-white/10 text-white backdrop-blur-md transition-colors hover:bg-white/20 active:scale-95 lg:hidden"
+                className="relative z-10 grid size-11 place-items-center rounded-full border border-leaf-400/50 bg-forest-950/85 text-white shadow-lg shadow-black/25 ring-1 ring-white/10 backdrop-blur-md transition-colors hover:bg-forest-950 active:scale-95 lg:hidden"
               >
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.span

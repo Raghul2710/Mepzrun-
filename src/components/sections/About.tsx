@@ -36,7 +36,7 @@ export function About() {
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute top-1/3 -left-40 size-[32rem] rounded-full bg-leaf/10 blur-[140px]" />
       </div>
-      <div aria-hidden className={t('pointer-events-none absolute -top-10 right-0 select-none headline text-[22vw] leading-none text-forest-950/[0.04]', 'pointer-events-none absolute -top-10 right-0 select-none headline text-[22vw] leading-none text-white/[0.03]')}>
+      <div aria-hidden className={t('pointer-events-none absolute top-6 right-[3vw] select-none headline text-[22vw] leading-none text-forest-950/[0.04] lg:top-10', 'pointer-events-none absolute top-6 right-[3vw] select-none headline text-[22vw] leading-none text-white/[0.03] lg:top-10')}>
         MEPZ
       </div>
 

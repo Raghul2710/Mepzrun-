@@ -14,11 +14,13 @@ import { Lightbox } from '@/components/Lightbox'
 import SplitText from '@/components/SplitText'
 import ScrollVelocity from '@/components/ScrollVelocity'
 import { RegisterButton } from '@/components/RegisterButton'
-import { campaignLines, heroSlides, slogans } from '@/content/site'
+import { showPrizeTab } from '@/lib/prize-tab'
+import { campaignLines, heroSlides, prizes, slogans } from '@/content/site'
 import { cn } from '@/lib/utils'
 
 const EASE = [0.22, 1, 0.36, 1] as const
 const SLIDE_MS = 6000
+const DESKTOP_MQ = '(min-width: 1024px)'
 export const RUNNER = { src: '/media/runner.webp', trail: '/media/runner-trail.webp', w: 730, h: 952 }
 
 /** Trail copies behind the runner: offset (% of runner width), opacity, blur. */
@@ -58,6 +60,15 @@ export function Hero() {
   const runnerScale = useTransform(scrollYProgress, [0, 1], [1, reduce ? 1 : 1.12])
   const copyY = useTransform(scrollYProgress, [0, 1], ['0%', reduce ? '0%' : '-30%'])
   const fade = useTransform(scrollYProgress, [0, 0.7], [1, reduce ? 1 : 0])
+  // Scroll fade-out is desktop only; on mobile the stacked hero content stays fully visible.
+  const [desktop, setDesktop] = useState(() => typeof window !== 'undefined' && window.matchMedia(DESKTOP_MQ).matches)
+  useEffect(() => {
+    const mq = window.matchMedia(DESKTOP_MQ)
+    const onChange = () => setDesktop(mq.matches)
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+  const fadeOn = desktop ? fade : 1
 
   // Fine-pointer parallax (desktop only).
   const px = useMotionValue(0)
@@ -130,7 +141,7 @@ export function Hero() {
       </div>
 
       {/* Top copy */}
-      <motion.div style={{ y: copyY, opacity: fade }} className="container-x relative z-20 order-1 pt-28 lg:pt-32">
+      <motion.div style={{ y: copyY, opacity: fadeOn }} className="container-x relative z-20 order-1 pt-28 lg:pt-32">
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -190,7 +201,7 @@ export function Hero() {
 
         {/* Runner */}
         <motion.div
-          style={{ x: runnerX, scale: runnerScale, opacity: fade }}
+          style={{ x: runnerX, scale: runnerScale, opacity: fadeOn }}
           className="absolute bottom-0 left-1/2 h-[96%] -translate-x-1/2 lg:bottom-[9%] lg:left-[55%] lg:h-[min(76svh,800px)]"
         >
           <motion.div style={{ x: runnerPX, y: runnerPY }} className="relative h-full" >
@@ -266,7 +277,7 @@ export function Hero() {
       </div>
 
       {/* Bottom copy */}
-      <motion.div style={{ opacity: fade }} className="container-x relative z-20 order-3 pt-6 pb-10 lg:mt-auto lg:pb-12">
+      <motion.div style={{ opacity: fadeOn }} className="container-x relative z-20 order-3 pt-6 pb-10 lg:mt-auto lg:pb-12">
         <motion.ul
           initial="hidden"
           animate="show"
@@ -274,15 +285,24 @@ export function Hero() {
           className="flex flex-wrap gap-2"
           aria-label="Race categories"
         >
-          {campaignLines.categories.map((c) => (
-            <motion.li
-              key={c}
-              variants={{ hidden: { opacity: 0, scale: 0.9 }, show: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: EASE } } }}
-              className="rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-sm font-semibold tracking-wide text-white/90 backdrop-blur"
-            >
-              {c}
-            </motion.li>
-          ))}
+          {campaignLines.categories.map((c) => {
+            const prizeId = prizes.find((p) => p.label === c)?.id
+            return (
+              <motion.li
+                key={c}
+                variants={{ hidden: { opacity: 0, scale: 0.9 }, show: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: EASE } } }}
+              >
+                <a
+                  href="#prizes"
+                  onClick={() => prizeId && showPrizeTab(prizeId)}
+                  aria-label={`${c} — see prize amounts`}
+                  className="inline-flex min-h-9 items-center rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-sm font-semibold tracking-wide text-white/90 backdrop-blur transition-[background-color,border-color,color,transform] duration-200 hover:-translate-y-0.5 hover:border-leaf-400/60 hover:bg-leaf-400/15 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-leaf-400 active:translate-y-0 motion-reduce:hover:translate-y-0"
+                >
+                  {c}
+                </a>
+              </motion.li>
+            )
+          })}
         </motion.ul>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -303,7 +323,7 @@ export function Hero() {
 
       {/* Campaign artwork card */}
       <motion.div
-        style={{ opacity: fade }}
+        style={{ opacity: fadeOn }}
         className="container-x relative z-30 order-4 pb-10 lg:absolute lg:top-28 lg:right-12 lg:left-auto lg:w-[340px] lg:max-w-none lg:px-0 lg:pb-0 xl:w-[380px]"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
@@ -388,7 +408,7 @@ export function Hero() {
 
       {/* QR code card — bottom right on desktop */}
       <motion.div
-        style={{ opacity: fade }}
+        style={{ opacity: fadeOn }}
         className="container-x relative z-30 order-4 pb-10 lg:absolute lg:right-12 lg:bottom-32 lg:left-auto lg:w-[340px] lg:max-w-none lg:px-0 lg:pb-0 xl:w-[380px]"
       >
         <motion.div

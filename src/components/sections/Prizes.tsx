@@ -1,4 +1,4 @@
-import { useState, type Key } from 'react'
+import { useEffect, useState, type Key } from 'react'
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react'
 import { Plus } from 'lucide-react'
 import { SectionHeading } from '@/components/SectionHeading'
@@ -8,8 +8,10 @@ import { NumberTicker } from '@/components/ui/number-ticker'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { notes, prizes } from '@/content/site'
 import { cn } from '@/lib/utils'
+import { PRIZE_TAB_EVENT } from '@/lib/prize-tab'
 
 const EASE = [0.22, 1, 0.36, 1] as const
+
 const places = [
   { key: 'first', label: '1st', tone: 'bg-amber', text: 'text-amber-300' },
   { key: 'second', label: '2nd', tone: 'bg-silver', text: 'text-silver' },
@@ -37,6 +39,15 @@ export function Prizes() {
   const [tab, setTab] = useState(prizes[0].id)
   const [notesOpen, setNotesOpen] = useState<Key | null>(null)
   const current = prizes.find((p) => p.id === tab)!
+
+  useEffect(() => {
+    const onTab = (e: Event) => {
+      const id = (e as CustomEvent<string>).detail
+      if (prizes.some((p) => p.id === id)) setTab(id)
+    }
+    window.addEventListener(PRIZE_TAB_EVENT, onTab)
+    return () => window.removeEventListener(PRIZE_TAB_EVENT, onTab)
+  }, [])
 
   return (
     <section id="prizes" aria-labelledby="prizes-title" className="grain section-y relative isolate overflow-clip bg-forest-900 text-white">

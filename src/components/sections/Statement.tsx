@@ -26,7 +26,7 @@ export function Statement() {
         <p className={`${textCls} container-x py-32 !${lit}`}>{campaignLines.back}</p>
       ) : (
         <TextReveal
-          className="h-[220vh]"
+          className="h-[160svh] lg:h-[220vh]"
           textClassName={`${textCls} !max-w-none`}
           wordClassName={lit}
           highlight={{
